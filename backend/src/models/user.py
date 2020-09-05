@@ -12,12 +12,12 @@ class UserBase(BaseModel):
     email: Optional[str]
     phone_no: Optional[str]
     login_type: Optional[str]
+    google_id: Optional[str]
     facebook_id: Optional[str]
 
 
 class UserCreate(UserBase):
     user_name: str
-    dob: date
     gender: str
     email: str
     password: str
@@ -33,8 +33,3 @@ class UserResponse(UserBase):
 
     class Config:
         orm_mode = True
-
-class UserLogin(BaseModel):
-    email: Optional[str]
-    password: Optional[str]
-    user_data: Optional[str] 
