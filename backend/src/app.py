@@ -3,9 +3,10 @@ from typing import List
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine
-from .crud import user
+from .crud import user, login
 from .db_models import user as db_model_user
-from .models.user import UserBase, UserCreate, UserResponse, UserLogin
+from .models.user import UserBase, UserCreate, UserResponse
+from .models.login import formData, loginTypeData
 
 
 db_model_user.Base.metadata.create_all(bind=engine)
@@ -30,13 +31,18 @@ def get_db():
         db.close()
 
 
-# @app.post("{login_type}/login/access-token", response_model=UserResponse)
-# def access_token(user_data: UserLogin, db_session: Session = Depends(get_db)):
-#     return True
+@app.post("/user/access-token", response_model=UserResponse)
+def access_token(formData: formData, db_session: Session = Depends(get_db)):
+    return login.access_token(db_session=db_session, formData=formData)
+
+
+@app.post("/{login_type}/user/access-token", response_model=UserResponse)
+def login_type_access_token(formData: loginTypeData, login_type: str, db_session: Session = Depends(get_db)):
+    return login.login_type_access_token(db_session=db_session, login_type=login_type, formData=formData)
 
 
 @app.post("/user/create", response_model=UserResponse)
-def create_job(user_data: UserCreate, db_session: Session = Depends(get_db)):
+def create_user(user_data: UserCreate, db_session: Session = Depends(get_db)):
     return user.create_user(db_session=db_session, user_data=user_data)
 
 

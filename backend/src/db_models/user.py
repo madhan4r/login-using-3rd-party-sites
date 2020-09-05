@@ -13,6 +13,7 @@ class user_table(Base):
     phone_no = Column(String(11), nullable=True)
     login_type = Column(String(10), nullable=False)
     dob = Column(Date, nullable=True)
+    google_id = Column(String(255), nullable=True)
     facebook_id = Column(String(255), nullable=True)
     created_on = Column(DateTime(timezone=True),
                         server_default=func.now(), nullable=False)
