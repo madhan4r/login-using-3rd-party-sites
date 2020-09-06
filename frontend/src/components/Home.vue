@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div class="my-5">
     <h6>Username: {{ userData.user_name }}</h6>
     <h6>Email: {{ userData.email }}</h6>
     <h6>Login Type: {{ userData.login_type }}</h6>
-    <h6>Gender: {{ userData.gender }}</h6>
-    <CButton color="primary" @click="logout">
-      Logout
-    </CButton>
+    <h6>Gender: {{ gender }}</h6>
+    <CRow class="content-center">
+      <CButton variant="outline" size="sm" color="primary" @click="logout">
+        Logout
+      </CButton></CRow
+    >
   </div>
 </template>
 
@@ -19,6 +21,11 @@ export default {
     return {
       userData: "",
     };
+  },
+  computed: {
+    gender() {
+      return this.userData.gender ? this.userData.gender : "--";
+    },
   },
   mounted() {
     let user = JSON.parse(window.localStorage.getItem("userdata"));
@@ -53,3 +60,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+h6 {
+  text-align: center;
+}
+</style>
