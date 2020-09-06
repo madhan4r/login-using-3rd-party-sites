@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 import hashlib
+import jwt
 from datetime import datetime
 
 from ..crud import user as user_crud
@@ -18,7 +19,15 @@ def access_token(db_session=Session, formData=formData):
     if password != user.password:
         raise HTTPException(
             status_code=400, detail='Email and Password does not match')
-    return user
+    payload = [{
+        'user_id': user.user_id
+    }]
+    access_token = jwt.encode({'data': payload},
+                              'secret', algorithm='HS256')
+    return {
+        "access_token": access_token,
+        "token_type": "bearer"
+    }
 
 
 def login_type_access_token(db_session=Session, login_type=str, formData=loginTypeData):
@@ -33,7 +42,15 @@ def login_type_access_token(db_session=Session, login_type=str, formData=loginTy
         user.login_type = login_type
         user.created_on = datetime.now()
         return user_crud.save(db_session, user)
-    return user
+    payload = [{
+        'user_id': user.user_id
+    }]
+    access_token = jwt.encode({'data': payload},
+                              'secret', algorithm='HS256')
+    return {
+        "access_token": access_token,
+        "token_type": "bearer"
+    }
 
 
 def hashed_pwd(password):
