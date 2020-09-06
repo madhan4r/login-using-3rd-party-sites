@@ -31,12 +31,12 @@ def get_db():
         db.close()
 
 
-@app.post("/user/access-token", response_model=UserResponse)
+@app.post("/user/access-token")
 def access_token(formData: formData, db_session: Session = Depends(get_db)):
     return login.access_token(db_session=db_session, formData=formData)
 
 
-@app.post("/{login_type}/user/access-token", response_model=UserResponse)
+@app.post("/{login_type}/user/access-token",)
 def login_type_access_token(formData: loginTypeData, login_type: str, db_session: Session = Depends(get_db)):
     return login.login_type_access_token(db_session=db_session, login_type=login_type, formData=formData)
 

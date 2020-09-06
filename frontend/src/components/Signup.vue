@@ -175,7 +175,6 @@ export default {
       } else {
         this.isFetching = true;
         this.payload.login_type = "normal";
-        console.log(this.payload);
         this.createUser(this.payload);
       }
     },
@@ -184,11 +183,15 @@ export default {
       return services
         .createUser(payload)
         .then((res) => {
+          let toastMessage = "User Account Created";
+          this.showToasterNow(toastMessage);
           this.$router.push("/");
-          this.showToasterNow("User Account Created");
           return res;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          this.showToasterNow(err.response.data.detail);
+          console.log(err);
+        });
     },
     showToasterNow(toastMessage) {
       this.toastMessage = toastMessage;
