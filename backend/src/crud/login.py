@@ -19,8 +19,13 @@ def access_token(db_session=Session, formData=formData):
     if password != user.password:
         raise HTTPException(
             status_code=400, detail='Email and Password does not match')
+    if user.user_id == 1:
+        userRole = "admin"
+    else:
+        userRole = "user"
     payload = [{
-        'user_id': user.user_id
+        'user_id': user.user_id,
+        'userRole': userRole
     }]
     access_token = jwt.encode({'data': payload},
                               'secret', algorithm='HS256')

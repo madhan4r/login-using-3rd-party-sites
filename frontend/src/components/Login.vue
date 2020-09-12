@@ -46,9 +46,10 @@
                     :onFailure="onFailureGoogle"
                     >Sign in with Google</GoogleLogin
                   >
-                  <CButton class="btn btn-facebook ml-2 mt-2">
-                    Sign in with facebook
-                  </CButton>
+                  <FacebookLogin
+                    appId="651061445817309"
+                    @login="onSuccessFacebook"
+                  />
                 </CRow>
                 <div class="mt-3">
                   Not Registered? <a href="/signup">SignUp Now</a>
@@ -70,11 +71,13 @@
 <script>
 import services from "@/services/services";
 import GoogleLogin from "vue-google-login";
+import FacebookLogin from "@/components/fb";
 
 export default {
   name: "Login",
   components: {
     GoogleLogin,
+    FacebookLogin,
   },
   data() {
     return {
@@ -121,6 +124,31 @@ export default {
         user_name: user.Ad,
         google_id: user.NT,
       };
+      this.loginWith3Party(login_type, payload);
+    },
+    onFailureGoogle(googleUser) {
+      this.showToasterNow("Google sign in failed");
+      console.log(googleUser);
+    },
+    onSuccessFacebook(facebookUser) {
+      let response = facebookUser.response.authResponse;
+      if (facebookUser.response.status == "connected") {
+        return services.fbUserData(response.accessToken).then((res) => {
+          let data = res.data
+          let payload = {
+            user_name: data.name,
+            facebook_id: data.id,
+          };
+          data.email ? (payload.email = data.email) : null;
+          let login_type = "facebook";
+          this.loginWith3Party(login_type, payload);
+        });
+      } else {
+        this.showToasterNow("Facebook sign in failed");
+        console.log(facebookUser);
+      }
+    },
+    loginWith3Party(login_type, payload) {
       this.isLoginFetching = true;
       return services
         .loginWith(login_type, payload)
@@ -131,10 +159,6 @@ export default {
           this.isLoginFetching = false;
           console.log(err);
         });
-    },
-    onFailureGoogle(googleUser) {
-      this.showToasterNow("Google sign in failed");
-      console.log(googleUser);
     },
     showToasterNow(toastMessage) {
       this.toastMessage = toastMessage;
@@ -173,10 +197,5 @@ export default {
 .btn-google {
   color: white;
   background-color: #ea4335;
-}
-
-.btn-facebook {
-  color: white;
-  background-color: #3b5998;
 }
 </style>

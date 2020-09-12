@@ -3,10 +3,11 @@ from typing import List
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine
-from .crud import user, login
-from .db_models import user as db_model_user
+from .crud import user, login, apartments
+from .db_models import user as db_model_user, apartments as db_apartment
 from .models.user import UserBase, UserCreate, UserResponse
 from .models.login import formData, loginTypeData
+from .models.apartments import ApartmentResponse, ApartmentBase
 
 
 db_model_user.Base.metadata.create_all(bind=engine)
@@ -59,3 +60,7 @@ def get_by_id(user_id: int, db_session: Session = Depends(get_db)):
 @app.put("/user/{user_id}/Update", response_model=UserResponse)
 def update_user(user_id: int, user_data: UserBase, db_session: Session = Depends(get_db)):
     return user.update_user(db_session=db_session, user_id=user_id, user_data=user_data)
+
+@app.post("/apartment/create", response_model=ApartmentResponse)
+def create_apartment(apartment_data: ApartmentBase, db_session: Session = Depends(get_db)):
+    return apartments.create_apartment(db_session=db_session, apartment_data=apartment_data)
