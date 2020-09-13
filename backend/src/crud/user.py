@@ -3,17 +3,17 @@ import hashlib
 from datetime import datetime
 
 from ..models.user import UserBase, UserCreate
-from ..db_models.user import user_table
+from ..db_models.user import Users
 from fastapi.exceptions import HTTPException
 
 
 def get_all(db_session: Session, skip: int = 0, limit: int = 100):
-    return db_session.query(user_table).offset(skip).limit(limit).all()
+    return db_session.query(Users).offset(skip).limit(limit).all()
 
 
 def get_by_id(db_session: Session, user_id: int):
-    user = db_session.query(user_table).filter(
-        user_table.user_id == user_id).first()
+    user = db_session.query(Users).filter(
+        Users.user_id == user_id).first()
     if not user:
         raise HTTPException(
             status_code=400, detail='Requested user ID ' + str(user_id) + ' does not exist')
@@ -21,9 +21,9 @@ def get_by_id(db_session: Session, user_id: int):
 
 
 def create_user(db_session: Session, user_data: UserCreate):
-    user = user_table(**user_data.dict(exclude_unset=True))
-    user_exists = db_session.query(user_table).filter(
-        user_table.email == user.email).first()
+    user = Users(**user_data.dict(exclude_unset=True))
+    user_exists = db_session.query(Users).filter(
+        Users.email == user.email).first()
     if user_exists:
         raise HTTPException(
             status_code=400, detail='Email already exists')
@@ -41,7 +41,7 @@ def update_user(db_session: Session, user_id: int, user_data: UserBase):
     return save(db_session, user)
 
 
-def save(db_session: Session, user: user_table):
+def save(db_session: Session, user: Users):
     db_session.add(user)
     db_session.commit()
     db_session.refresh(user)
