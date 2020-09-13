@@ -8,11 +8,14 @@ class Apartments(Base):
     __tablename__ = "apartment_table"
     apartment_id = Column(Integer, primary_key=True, nullable=False)
     apartment_name = Column(String(255), unique=True, nullable=False)
-    active = Column(Boolean, nullable=False)
+    activeStatus = Column(String(20), nullable=False)
+    comments = Column(String(255), nullable=True)
+    activated_on = Column(DateTime(timezone=True),
+                          onupdate=func.now(), nullable=True)
     created_by = Column(ForeignKey('user_table.user_id'), nullable=False)
     created_on = Column(DateTime(timezone=True),
                         server_default=func.now(), nullable=False)
 
     joinedUsers = relationship(
-        "JoinApartments", back_populates="apartment_table")      
+        "JoinApartments", back_populates="apartment_table")
     owner = relationship("Users", back_populates="createdApartments")

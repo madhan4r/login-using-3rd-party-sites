@@ -7,8 +7,8 @@ from .crud import user, login, apartments, joinApartments
 from .db_models import user as db_model_user
 from .models.user import UserBase, UserCreate, UserResponse
 from .models.login import formData, loginTypeData
-from .models.apartments import ApartmentResponse, ApartmentBase
-from .models.joinApartments import JoinApartmentBase, JoinApartmentResponse
+from .models.apartments import ApartmentResponse, ApartmentBase, ApartmentUpdate
+from .models.joinApartments import JoinApartmentBase, JoinApartmentResponse, JoinApartmentUpdate
 
 db_model_user.Base.metadata.create_all(bind=engine)
 
@@ -57,12 +57,12 @@ def get_by_id(user_id: int, db_session: Session = Depends(get_db)):
     return user.get_by_id(db_session=db_session, user_id=user_id)
 
 
-@app.put("/user/{user_id}/Update", response_model=UserResponse)
+@app.put("/user/{user_id}/update", response_model=UserResponse)
 def update_user(user_id: int, user_data: UserBase, db_session: Session = Depends(get_db)):
     return user.update_user(db_session=db_session, user_id=user_id, user_data=user_data)
 
 
-@app.post("/apartments/create", response_model=ApartmentResponse)
+@app.post("/apartment/create", response_model=ApartmentResponse)
 def create_apartment(apartment_data: ApartmentBase, db_session: Session = Depends(get_db)):
     return apartments.create_apartment(db_session=db_session, apartment_data=apartment_data)
 
@@ -72,6 +72,21 @@ def get_all(skip: int = 0, limit: int = 10, db_session: Session = Depends(get_db
     return apartments.get_all(db_session=db_session, skip=skip, limit=limit)
 
 
+@app.get("/apartment/{apartment_id}", response_model=ApartmentResponse)
+def get_by_id(apartment_id: int, db_session: Session = Depends(get_db)):
+    return apartments.get_by_id(db_session=db_session, apartment_id=apartment_id)
+
+
+@app.put("/apartment/{apartment_id}/update", response_model=ApartmentResponse)
+def update_apartment(apartment_id: int, apartment_data: ApartmentUpdate, db_session: Session = Depends(get_db)):
+    return apartments.update_apartment(db_session=db_session, apartment_id=apartment_id, apartment_data=apartment_data)
+
+
 @app.post("/apartments/join", response_model=JoinApartmentResponse)
 def join_apartment(joinApartment_data: JoinApartmentBase, db_session: Session = Depends(get_db)):
     return joinApartments.join_apartment(db_session=db_session, joinApartment_data=joinApartment_data)
+
+
+@app.put("/apartment/join/{joinApartment_id}/update", response_model=JoinApartmentResponse)
+def update_join_apartment(joinApartment_id: int, joinApartment_data: JoinApartmentUpdate, db_session: Session = Depends(get_db)):
+    return joinApartments.update_join_apartment(db_session=db_session, joinApartment_id=joinApartment_id, joinApartment_data=joinApartment_data)

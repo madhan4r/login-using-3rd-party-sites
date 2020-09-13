@@ -10,7 +10,10 @@ class JoinApartments(Base):
     user_id = Column(ForeignKey('user_table.user_id'), nullable=False)
     apartment_id = Column(ForeignKey(
         'apartment_table.apartment_id'), nullable=False)
-    status = Column(Boolean, nullable=False)
+    activeStatus = Column(String(20), nullable=False)
+    comments = Column(String(255), nullable=True)
+    accepted_on = Column(DateTime(timezone=True),
+                         onupdate=func.now(), nullable=True)
     joined_on = Column(DateTime(timezone=True),
                        server_default=func.now(), nullable=False)
 
