@@ -3,12 +3,12 @@ from typing import List
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine
-from .crud import user, login, apartments
-from .db_models import user as db_model_user, apartments as db_apartment
+from .crud import user, login, apartments, joinApartments
+from .db_models import user as db_model_user
 from .models.user import UserBase, UserCreate, UserResponse
 from .models.login import formData, loginTypeData
 from .models.apartments import ApartmentResponse, ApartmentBase
-
+from .models.joinApartments import JoinApartmentBase, JoinApartmentResponse
 
 db_model_user.Base.metadata.create_all(bind=engine)
 
@@ -61,6 +61,17 @@ def get_by_id(user_id: int, db_session: Session = Depends(get_db)):
 def update_user(user_id: int, user_data: UserBase, db_session: Session = Depends(get_db)):
     return user.update_user(db_session=db_session, user_id=user_id, user_data=user_data)
 
-@app.post("/apartment/create", response_model=ApartmentResponse)
+
+@app.post("/apartments/create", response_model=ApartmentResponse)
 def create_apartment(apartment_data: ApartmentBase, db_session: Session = Depends(get_db)):
     return apartments.create_apartment(db_session=db_session, apartment_data=apartment_data)
+
+
+@app.get("/apartments/", response_model=List[ApartmentResponse])
+def get_all(skip: int = 0, limit: int = 10, db_session: Session = Depends(get_db)):
+    return apartments.get_all(db_session=db_session, skip=skip, limit=limit)
+
+
+@app.post("/apartments/join", response_model=JoinApartmentResponse)
+def join_apartment(joinApartment_data: JoinApartmentBase, db_session: Session = Depends(get_db)):
+    return joinApartments.join_apartment(db_session=db_session, joinApartment_data=joinApartment_data)

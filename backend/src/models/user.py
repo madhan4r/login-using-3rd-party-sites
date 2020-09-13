@@ -1,7 +1,8 @@
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime, date
 from pydantic import BaseModel
-
+from .apartments import ApartmentResponse
+from .joinApartments import JoinApartmentResponse
 # User Base Class
 
 
@@ -30,6 +31,8 @@ class UserResponse(UserBase):
     user_id: int
     created_on: datetime
     modified_on: Optional[datetime] = None
+    createdApartments: List[ApartmentResponse] = []
+    joinedApartments: List[JoinApartmentResponse]
 
     class Config:
         orm_mode = True
