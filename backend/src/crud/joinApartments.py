@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from datetime import datetime
 
-from ..models.joinApartments import JoinApartmentBase
+from ..models.joinApartments import JoinApartmentBase, JoinApartmentUpdate
 from ..db_models.joinApartments import JoinApartments
 from fastapi.exceptions import HTTPException
 
@@ -33,11 +33,12 @@ def join_apartment(db_session: Session, joinApartment_data: JoinApartmentBase):
     return save(db_session, joinApartment)
 
 
-def update_apartment(db_session: Session, joinApartment_id: int, joinApartment_data: JoinApartmentBase):
+def update_join_apartment(db_session: Session, joinApartment_id: int, joinApartment_data: JoinApartmentUpdate):
     joinApartment = get_by_id(db_session, joinApartment_id)
     joinApartment_update = joinApartment_data.dict(exclude_unset=True)
     for field in joinApartment_update:
         setattr(joinApartment, field, joinApartment_update[field])
+    joinApartment.joined_on = datetime.now()
     return save(db_session, joinApartment)
 
 

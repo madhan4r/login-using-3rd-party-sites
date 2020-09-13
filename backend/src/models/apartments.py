@@ -13,12 +13,19 @@ class Config:
     orm_mode = True
 
 
+class ApartmentUpdate(BaseModel):
+    comments: Optional[str]
+    activeStatus: str
+
+
 class ApartmentResponse(ApartmentBase):
     apartment_id: int
-    active: str
+    activeStatus: str
     created_by: int
     created_on: datetime
+    comments: Optional[str]
+    activated_on: Optional[datetime]
     joinedUsers: List[JoinApartmentResponse] = []
-    
+
     class Config:
         orm_mode = True
