@@ -46,7 +46,7 @@ def login_type_access_token(db_session=Session, login_type=str, formData=loginTy
         user = Users(**formData.dict(exclude_unset=True))
         user.login_type = login_type
         user.created_on = datetime.now()
-        return user_crud.save(db_session, user)
+        user = user_crud.save(db_session, user)
     if user.user_id == 1:
         userRole = "admin"
     else:

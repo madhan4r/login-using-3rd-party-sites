@@ -892,6 +892,11 @@
   dependencies:
     vue "~2.6.11"
 
+"@coreui/icons@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@coreui/icons/-/icons-1.0.1.tgz#8af0fe6450904ee1dbb0abf36bf107f35cfecf5e"
+  integrity sha512-DAlvdHRC+HHecdy52vskbNzNKEpu6wHDvSlsHGrwOqNxQl1YLhGEtqAW4sKpyVE3GgysNCywUWZGFlLp8I3LgA==
+
 "@coreui/icons@^2.0.0-beta.4":
   version "2.0.0-beta.5"
   resolved "https://registry.yarnpkg.com/@coreui/icons/-/icons-2.0.0-beta.5.tgz#bf2b3e06eb0d5abe1f28eee312e4af4210b4bf5b"

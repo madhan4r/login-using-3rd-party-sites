@@ -134,7 +134,7 @@ export default {
       let response = facebookUser.response.authResponse;
       if (facebookUser.response.status == "connected") {
         return services.fbUserData(response.accessToken).then((res) => {
-          let data = res.data
+          let data = res.data;
           let payload = {
             user_name: data.name,
             facebook_id: data.id,

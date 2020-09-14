@@ -6,6 +6,7 @@ import CoreuiVue from "@coreui/vue";
 import vSelect from "vue-select";
 import * as VeeValidate from 'vee-validate';
 import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { freeSet as icons } from "@coreui/icons"
 
 
 Vue.use(CoreuiVue);
@@ -19,5 +20,6 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
+  icons,
   render: h => h(App)
 }).$mount("#app");

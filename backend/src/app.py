@@ -82,7 +82,7 @@ def update_apartment(apartment_id: int, apartment_data: ApartmentUpdate, db_sess
     return apartments.update_apartment(db_session=db_session, apartment_id=apartment_id, apartment_data=apartment_data)
 
 
-@app.post("/apartments/join", response_model=JoinApartmentResponse)
+@app.post("/apartment/join", response_model=JoinApartmentResponse)
 def join_apartment(joinApartment_data: JoinApartmentBase, db_session: Session = Depends(get_db)):
     return joinApartments.join_apartment(db_session=db_session, joinApartment_data=joinApartment_data)
 
