@@ -25,7 +25,7 @@ def join_apartment(db_session: Session, joinApartment_data: JoinApartmentBase):
     joinApartment_exists = db_session.query(JoinApartments).filter(
         JoinApartments.apartment_id == joinApartment.apartment_id,
         JoinApartments.user_id == joinApartment_data.user_id).first()
-    joinApartment.status = False
+    joinApartment.activeStatus = "Under Review"
     if joinApartment_exists:
         raise HTTPException(
             status_code=400, detail='You have already joined this Apartment')
@@ -38,7 +38,7 @@ def update_join_apartment(db_session: Session, joinApartment_id: int, joinApartm
     joinApartment_update = joinApartment_data.dict(exclude_unset=True)
     for field in joinApartment_update:
         setattr(joinApartment, field, joinApartment_update[field])
-    joinApartment.joined_on = datetime.now()
+    joinApartment.reviewed_on = datetime.now()
     return save(db_session, joinApartment)
 
 

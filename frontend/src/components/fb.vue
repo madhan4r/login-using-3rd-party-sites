@@ -22,7 +22,8 @@ export default {
   },
   methods: {
     buttonClicked() {
-        this.isConnected ? this.logout() : this.login();
+      this.login();
+      // this.isConnected ? this.logout() : this.login();
     },
     logout() {
       this.isWorking = true;
@@ -77,7 +78,6 @@ export default {
   mounted() {
     this.isWorking = true;
     loadFbSdk(this.appId, this.version)
-      .then((loadingResult) => {})
       .then(() => getLoginStatus())
       .then((response) => {
         if (response.status === "connected") {

@@ -6,7 +6,9 @@ from .joinApartments import JoinApartmentResponse
 
 class ApartmentBase(BaseModel):
     apartment_name: str
+    description: Optional[str]
     created_by: int
+    created_by_name: str
 
 
 class Config:

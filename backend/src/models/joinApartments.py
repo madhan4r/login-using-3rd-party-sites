@@ -6,6 +6,7 @@ from pydantic import BaseModel
 class JoinApartmentBase(BaseModel):
     user_id: int
     apartment_id: int
+    user_name: str
 
     class Config:
         orm_mode = True
@@ -21,8 +22,8 @@ class JoinApartmentResponse(JoinApartmentBase):
     user_id: int
     apartment_id: int
     activeStatus: str
+    reviewed_on: Optional[date]
     comments: Optional[str]
-    joined_on: Optional[datetime]
 
     class Config:
         orm_mode = True

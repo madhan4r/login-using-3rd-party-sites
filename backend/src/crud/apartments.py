@@ -24,7 +24,7 @@ def create_apartment(db_session: Session, apartment_data: ApartmentBase):
     apartment = Apartments(**apartment_data.dict(exclude_unset=True))
     apartment_exists = db_session.query(Apartments).filter(
         Apartments.apartment_name == apartment.apartment_name).first()
-    apartment.activeStatus = "under review"
+    apartment.activeStatus = "Under Review"
     if apartment_exists:
         raise HTTPException(
             status_code=400, detail='Apartment Name already exists')
@@ -32,7 +32,7 @@ def create_apartment(db_session: Session, apartment_data: ApartmentBase):
     apartment = save(db_session, apartment)
     if apartment:
         joinApartment_data = JoinApartments(
-            user_id=apartment.created_by, apartment_id=apartment.apartment_id, activeStatus="Joined")
+            user_id=apartment.created_by, apartment_id=apartment.apartment_id, user_name=apartment.created_by_name, activeStatus="Approve")
         save(db_session, joinApartment_data)
     return apartment
 

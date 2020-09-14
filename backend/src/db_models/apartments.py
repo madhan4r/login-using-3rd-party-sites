@@ -8,11 +8,13 @@ class Apartments(Base):
     __tablename__ = "apartment_table"
     apartment_id = Column(Integer, primary_key=True, nullable=False)
     apartment_name = Column(String(255), unique=True, nullable=False)
+    description = Column(String(255), nullable=True)
     activeStatus = Column(String(20), nullable=False)
     comments = Column(String(255), nullable=True)
     activated_on = Column(DateTime(timezone=True),
                           onupdate=func.now(), nullable=True)
     created_by = Column(ForeignKey('user_table.user_id'), nullable=False)
+    created_by_name = Column(String(255),nullable=False)
     created_on = Column(DateTime(timezone=True),
                         server_default=func.now(), nullable=False)
 
