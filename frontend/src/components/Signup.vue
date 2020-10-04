@@ -55,7 +55,7 @@
                         :rules="{
                           required: true,
                           password_length: 8,
-                          password_strength: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+                          password_strength: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
                         }"
                         v-slot="{ errors }"
                       >
@@ -123,7 +123,7 @@ import {
   email,
   confirmed,
   min,
-  regex,
+  regex
 } from "vee-validate/dist/rules";
 import services from "@/services/services";
 
@@ -131,15 +131,15 @@ extend("required", { ...required, message: "This field is required" });
 extend("email", { ...email, message: "Invalid email" });
 extend("confirmed", {
   ...confirmed,
-  message: "This field should match password",
+  message: "This field should match password"
 });
 extend("password_length", {
   ...min,
-  message: "Password be atleast 8 characters",
+  message: "Password be atleast 8 characters"
 });
 extend("password_strength", {
   ...regex,
-  message: "Password must have capitals, numbers and special characters",
+  message: "Password must have capitals, numbers and special characters"
 });
 
 export default {
@@ -150,20 +150,20 @@ export default {
         user_name: "",
         email: "",
         gender: "",
-        password: "",
+        password: ""
       },
       confirmPassword: "",
       isFetching: false,
       showToaster: false,
-      toastMessage: "",
+      toastMessage: ""
     };
   },
   computed: {
     options() {
       return {
-        gender: ["Male", "Female", "Transgender"],
+        gender: ["Male", "Female", "Transgender"]
       };
-    },
+    }
   },
   methods: {
     async onSubmit() {
@@ -182,13 +182,13 @@ export default {
       this.isFetching = false;
       return services
         .createUser(payload)
-        .then((res) => {
+        .then(res => {
           let toastMessage = "User Account Created";
           this.showToasterNow(toastMessage);
           this.$router.push("/");
           return res;
         })
-        .catch((err) => {
+        .catch(err => {
           this.showToasterNow(err.response.data.detail);
           console.log(err);
         });
@@ -200,8 +200,8 @@ export default {
         this.toastMessage = "";
         this.showToaster = false;
       }, 3000);
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -42,10 +42,7 @@
             </div></CTab
           >
           <CTab title="Pending Request" class="mb-3">
-            <CCardGroup
-              class="content-center"
-              v-if="pendingRequest.pending"
-            >
+            <CCardGroup class="content-center" v-if="pendingRequest.pending">
               <CCard
                 class="m-3"
                 style="min-width: 300px; max-width: 300px"
@@ -185,7 +182,7 @@ export default {
   name: "UserHome",
   props: ["userProfile"],
   components: {
-    PopupModal,
+    PopupModal
   },
   data() {
     return {
@@ -197,16 +194,16 @@ export default {
         modalColor: "",
         modalContent: "",
         isShowPopup: false,
-        modalType: "",
+        modalType: ""
       },
       searchTerm: "",
-      selectedJoinApartment: 0,
+      selectedJoinApartment: 0
     };
   },
   computed: {
     myApartments() {
       return this.userCreatedApartments
-        ? this.userCreatedApartments.map((val) => {
+        ? this.userCreatedApartments.map(val => {
             let data = {
               apartment_id: val.apartment_id,
               apartment_name: val.apartment_name,
@@ -214,7 +211,7 @@ export default {
               created_on: val.created_on,
               activeStatus: val.activeStatus,
               activated_on: val.activated_on ? val.activated_on : "--",
-              joinedUsers: val.joinedUsers.length,
+              joinedUsers: val.joinedUsers.length
             };
             return data;
           })
@@ -223,23 +220,23 @@ export default {
     pendingRequest() {
       let active = this.userCreatedApartments
         ? this.userCreatedApartments
-            .filter((val) => {
+            .filter(val => {
               return val.activeStatus == "Approve";
             })
-            .map((val) => {
+            .map(val => {
               let data = {
                 apartment_id: val.apartment_id,
                 apartment_name: val.apartment_name,
                 description: val.description ? val.description : "--",
-                joinedUsers: val.joinedUsers,
+                joinedUsers: val.joinedUsers
               };
               return data;
             })
         : [];
       let pending = false;
       active
-        ? active.filter((val) => {
-            val.joinedUsers.filter((value) => {
+        ? active.filter(val => {
+            val.joinedUsers.filter(value => {
               pending = value.activeStatus == "Under Review" ? true : pending;
             });
           })
@@ -248,34 +245,34 @@ export default {
     },
     allApartments() {
       return this.totalApartments
-        ? this.totalApartments.filter((val) => {
+        ? this.totalApartments.filter(val => {
             return val.activeStatus == "Approve";
           })
         : [];
     },
     joinedApartments() {
       let joined = this.userProfile.joinedApartments
-        ? this.userProfile.joinedApartments.filter((val) => {
+        ? this.userProfile.joinedApartments.filter(val => {
             return val.activeStatus == "Approve";
           })
         : [];
       if (!joined) {
         return [];
       }
-      return joined.map((val) => {
+      return joined.map(val => {
         if (!this.totalApartments) {
           return [];
         }
-        let getApartment = this.totalApartments.filter((value) => {
+        let getApartment = this.totalApartments.filter(value => {
           return value.apartment_id == val.apartment_id;
         });
         return {
           apartment_name: getApartment[0].apartment_name,
           joinedUsers: getApartment[0].joinedUsers,
-          reviewed_on: val.reviewed_on,
+          reviewed_on: val.reviewed_on
         };
       });
-    },
+    }
   },
   watch: {
     allApartments() {
@@ -283,20 +280,20 @@ export default {
     },
     userProfile() {
       this.userCreatedApartments = this.userProfile.createdApartments;
-    },
+    }
   },
   mounted() {
     this.getAllApartments();
   },
   methods: {
     getAllApartments() {
-      return services.getAllApartments().then((res) => {
+      return services.getAllApartments().then(res => {
         this.totalApartments = res.data;
       });
     },
     searchFilter() {
       if (this.searchTerm) {
-        this.filteredApartments = this.allApartments.filter((val) => {
+        this.filteredApartments = this.allApartments.filter(val => {
           return val.apartment_name.includes(this.searchTerm);
         });
       } else {
@@ -304,13 +301,13 @@ export default {
       }
     },
     checkMe(data) {
-      return data.some((val) => val.user_id == this.userProfile.user_id);
+      return data.some(val => val.user_id == this.userProfile.user_id);
     },
     joinApartment(apartment_id) {
       let payload = {
         apartment_id: apartment_id,
         user_id: this.userProfile.user_id,
-        user_name: this.userProfile.user_name,
+        user_name: this.userProfile.user_name
       };
       services.joinApartment(payload).then(() => {
         this.$emit("getMe", this.userProfile.user_id);
@@ -357,12 +354,12 @@ export default {
               this.getAllApartments();
               this.$emit("toaster", "Apartment created successfully");
             })
-            .catch((err) => {
+            .catch(err => {
               this.$emit("toaster", err.response.data.detail);
             });
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>

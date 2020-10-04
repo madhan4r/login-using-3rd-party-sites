@@ -5,9 +5,7 @@
         ><strong> Welcome {{ userName }} </strong></a
       >
       <ul class="c-header-nav mr-auto">
-        <li class="c-header-nav-item active">
-          
-        </li>
+        <li class="c-header-nav-item active"></li>
       </ul>
       <button @click="logout" class="c-header-toggler inline my-2 my-lg-0">
         Logout
@@ -23,14 +21,14 @@ export default {
   computed: {
     userName() {
       return this.userProfile.user_name ? this.userProfile.user_name : "User";
-    },
+    }
   },
   methods: {
     logout() {
       window.localStorage.removeItem("userdata");
       this.$router.push("/");
-    },
-  },
+    }
+  }
 };
 </script>
 
