@@ -31,14 +31,14 @@ export default {
   components: {
     AdminHome,
     UserHome,
-    Header,
+    Header
   },
   data() {
     return {
       user: "",
       userProfile: "",
       showToaster: false,
-      toastMessage: "",
+      toastMessage: ""
     };
   },
   mounted() {
@@ -53,11 +53,11 @@ export default {
   computed: {
     isAdmin() {
       return this.user.userRole == "admin" ? true : false;
-    },
+    }
   },
   methods: {
     me(user_id) {
-      return services.getByID(user_id).then((res) => {
+      return services.getByID(user_id).then(res => {
         this.userProfile = res.data;
       });
     },
@@ -85,7 +85,7 @@ export default {
         this.toastMessage = "";
         this.showToaster = false;
       }, 3000);
-    },
-  },
+    }
+  }
 };
 </script>

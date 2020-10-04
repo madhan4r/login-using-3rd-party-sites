@@ -76,7 +76,7 @@ export default {
     "isShowPopup",
     "modalCallBack",
     "closeOnBackdrop",
-    "modalType",
+    "modalType"
   ],
   data() {
     return {
@@ -85,14 +85,14 @@ export default {
       comments: "",
       apartment_name: "",
       description: "",
-      showError: false,
+      showError: false
     };
   },
   watch: {
     isShowPopup(newVal) {
       this.isShow = newVal;
       this.clearFields();
-    },
+    }
   },
   computed: {
     isShowModal: {
@@ -101,13 +101,13 @@ export default {
       },
       set(isShowPopup) {
         this.isShow = isShowPopup;
-      },
+      }
     },
     options() {
       return {
-        respond: ["Approve", "Reject"],
+        respond: ["Approve", "Reject"]
       };
-    },
+    }
   },
   methods: {
     submit() {
@@ -116,7 +116,7 @@ export default {
         if (this.showError) return;
         let payload = {
           activeStatus: this.response,
-          comments: this.comments,
+          comments: this.comments
         };
         this.modalCallBack("Save", payload);
       } else if (this.modalType == "newApartment") {
@@ -126,7 +126,7 @@ export default {
         if (this.showError) return;
         let payload = {
           apartment_name: this.apartment_name,
-          description: this.description,
+          description: this.description
         };
         this.modalCallBack("Save", payload);
       }
@@ -134,8 +134,10 @@ export default {
     clearFields() {
       this.response = "";
       this.comments = "";
-    },
-  },
+      this.apartment_name = "";
+      this.description = "";
+    }
+  }
 };
 </script>
 <style scoped>

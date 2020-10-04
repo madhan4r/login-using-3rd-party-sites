@@ -77,7 +77,7 @@ export default {
   name: "Login",
   components: {
     GoogleLogin,
-    FacebookLogin,
+    FacebookLogin
   },
   data() {
     return {
@@ -85,22 +85,22 @@ export default {
       password: "",
       isLoginFetching: false,
       params: {
-        client_id: "170378570980-ht4k9obd1ce0k4qjfa6phdp4gqjkispe",
+        client_id: "170378570980-ht4k9obd1ce0k4qjfa6phdp4gqjkispe"
       },
       renderParams: {
         width: 250,
         height: 50,
-        longtitle: true,
+        longtitle: true
       },
       showToaster: false,
-      toastMessage: "",
+      toastMessage: ""
     };
   },
   methods: {
     onSubmit() {
       let payload = {
         email: this.email,
-        password: this.password,
+        password: this.password
       };
       this.login_accesstoken(payload);
     },
@@ -108,8 +108,8 @@ export default {
       this.isLoginFetching = true;
       return services
         .access_token(payload)
-        .then((res) => this.loggedIn(res.data))
-        .catch((err) => {
+        .then(res => this.loggedIn(res.data))
+        .catch(err => {
           this.isLoginFetching = false;
           this.showToasterNow(err.response.data.detail);
           console.log(err);
@@ -122,7 +122,7 @@ export default {
       let payload = {
         email: user.$t,
         user_name: user.Ad,
-        google_id: user.NT,
+        google_id: user.NT
       };
       this.loginWith3Party(login_type, payload);
     },
@@ -133,11 +133,11 @@ export default {
     onSuccessFacebook(facebookUser) {
       let response = facebookUser.response.authResponse;
       if (facebookUser.response.status == "connected") {
-        return services.fbUserData(response.accessToken).then((res) => {
+        return services.fbUserData(response.accessToken).then(res => {
           let data = res.data;
           let payload = {
             user_name: data.name,
-            facebook_id: data.id,
+            facebook_id: data.id
           };
           data.email ? (payload.email = data.email) : null;
           let login_type = "facebook";
@@ -152,10 +152,10 @@ export default {
       this.isLoginFetching = true;
       return services
         .loginWith(login_type, payload)
-        .then((res) => {
+        .then(res => {
           this.loggedIn(res.data);
         })
-        .catch((err) => {
+        .catch(err => {
           this.isLoginFetching = false;
           console.log(err);
         });
@@ -171,8 +171,8 @@ export default {
     loggedIn(data) {
       window.localStorage.setItem("userdata", JSON.stringify(data));
       this.$router.push("/home");
-    },
-  },
+    }
+  }
 };
 </script>
 

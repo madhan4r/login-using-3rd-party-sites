@@ -43,7 +43,9 @@
                   <strong> Active Status :</strong>
                   {{ apartment.activeStatus }}
                 </p>
-                <p><strong>Created by:</strong> {{ apartment.created_by_name }}</p>
+                <p>
+                  <strong>Created by:</strong> {{ apartment.created_by_name }}
+                </p>
                 <p><strong>Created on:</strong> {{ apartment.created_on }}</p>
                 <CRow class="justify-content-center">
                   <CButton
@@ -86,9 +88,11 @@
                 </p>
                 <p>
                   <strong> Active Status :</strong>
-                  {{ apartment.activeStatus == 'Approve' ? 'Approved' : '--' }}
+                  {{ apartment.activeStatus == "Approve" ? "Approved" : "--" }}
                 </p>
-                <p><strong>Created by:</strong> {{ apartment.created_by_name }}</p>
+                <p>
+                  <strong>Created by:</strong> {{ apartment.created_by_name }}
+                </p>
                 <p>
                   <strong>Reviewed on:</strong> {{ apartment.activated_on }}
                 </p>
@@ -135,7 +139,9 @@
                   <strong> Active Status :</strong>
                   {{ apartment.activeStatus.toUpperCase() }}
                 </p>
-                <p><strong>Created by:</strong> {{ apartment.created_by_name }}</p>
+                <p>
+                  <strong>Created by:</strong> {{ apartment.created_by_name }}
+                </p>
                 <p>
                   <strong>Reviewed on:</strong> {{ apartment.activated_on }}
                 </p>
@@ -175,7 +181,7 @@ export default {
   name: "AdminHome",
   props: ["userProfile"],
   components: {
-    PopupModal,
+    PopupModal
   },
   data() {
     return {
@@ -190,34 +196,34 @@ export default {
         modalColor: "",
         modalContent: "",
         isShowPopup: false,
-        modalType: "",
+        modalType: ""
       },
       searchTerm: "",
-      active_tab: 1,
+      active_tab: 1
     };
   },
   computed: {
     pendingApartments() {
       return this.totalApartments
-        ? this.totalApartments.filter((val) => {
+        ? this.totalApartments.filter(val => {
             return val.activeStatus == "Under Review";
           })
         : [];
     },
     activeApartments() {
       return this.totalApartments
-        ? this.totalApartments.filter((val) => {
+        ? this.totalApartments.filter(val => {
             return val.activeStatus == "Approve";
           })
         : [];
     },
     rejectedApartments() {
       return this.totalApartments
-        ? this.totalApartments.filter((val) => {
+        ? this.totalApartments.filter(val => {
             return val.activeStatus == "Reject";
           })
         : [];
-    },
+    }
   },
   watch: {
     activeApartments() {
@@ -225,7 +231,7 @@ export default {
     },
     pendingApartments() {
       this.pendingApartments.length ? (this.active_tab = 0) : null;
-    },
+    }
   },
   mounted() {
     this.getAllApartments();
@@ -233,13 +239,13 @@ export default {
   },
   methods: {
     getAllApartments() {
-      return services.getAllApartments().then((res) => {
+      return services.getAllApartments().then(res => {
         this.totalApartments = res.data;
         this.totalApartmentsCount = res.data.length.toString();
       });
     },
     getAllUsers() {
-      return services.getAllUsers().then((res) => {
+      return services.getAllUsers().then(res => {
         this.totalUsers = res.data;
         let count = res.data.length - 1;
         this.totalUserCount = count.toString();
@@ -247,7 +253,7 @@ export default {
     },
     searchFilter() {
       if (this.searchTerm) {
-        this.filteredApartments = this.activeApartments.filter((val) => {
+        this.filteredApartments = this.activeApartments.filter(val => {
           return val.apartment_name.includes(this.searchTerm);
         });
       } else {
@@ -289,7 +295,7 @@ export default {
           });
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>

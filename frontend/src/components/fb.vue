@@ -10,14 +10,14 @@ import {
   loadFbSdk,
   getLoginStatus,
   fbLogout,
-  fbLogin,
+  fbLogin
 } from "@/components/fbhelpers.js";
 export default {
   name: "facebook-login",
   data() {
     return {
       isWorking: false,
-      isConnected: false,
+      isConnected: false
     };
   },
   methods: {
@@ -27,7 +27,7 @@ export default {
     },
     logout() {
       this.isWorking = true;
-      fbLogout().then((response) => {
+      fbLogout().then(response => {
         this.isWorking = false;
         this.isConnected = false;
         this.$emit("logout", response);
@@ -35,7 +35,7 @@ export default {
     },
     login() {
       this.isWorking = true;
-      fbLogin(this.loginOptions).then((response) => {
+      fbLogin(this.loginOptions).then(response => {
         if (response.status === "connected") {
           this.isConnected = true;
         } else {
@@ -44,42 +44,42 @@ export default {
         this.isWorking = false;
         this.$emit("login", {
           response,
-          FB: window.FB,
+          FB: window.FB
         });
       });
-    },
+    }
   },
   props: {
     appId: {
       type: String,
-      required: true,
+      required: true
     },
     version: {
       type: String,
-      default: "v2.10",
+      default: "v2.10"
     },
     logoutLabel: {
       type: String,
-      default: "Log out from Facebook",
+      default: "Log out from Facebook"
     },
     loginLabel: {
       type: String,
-      default: "Log In To Facebook",
+      default: "Log In To Facebook"
     },
     loginOptions: {
       type: Object,
       default: function() {
         return {
-          scope: "email",
+          scope: "email"
         };
-      },
-    },
+      }
+    }
   },
   mounted() {
     this.isWorking = true;
     loadFbSdk(this.appId, this.version)
       .then(() => getLoginStatus())
-      .then((response) => {
+      .then(response => {
         if (response.status === "connected") {
           this.isConnected = true;
         }
@@ -88,10 +88,10 @@ export default {
         this.$emit("get-initial-status", response);
         this.$emit("sdk-loaded", {
           isConnected: this.isConnected,
-          FB: window.FB,
+          FB: window.FB
         });
       });
-  },
+  }
 };
 </script>
 
